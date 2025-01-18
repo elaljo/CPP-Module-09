@@ -6,7 +6,7 @@
 /*   By: moelalj <moelalj@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 15:40:45 by moelalj           #+#    #+#             */
-/*   Updated: 2025/01/17 19:41:08 by moelalj          ###   ########.fr       */
+/*   Updated: 2025/01/18 13:56:38 by moelalj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,15 @@ BitcoinExchange::BitcoinExchange(){
     if (!data.is_open())
         std::cerr << "Error: Database not found" << std::endl;
     std::string line;
-    std::getline(data, line);
-    while(std::getline(data, line)){
-        size_t delimiterpos = line.find(',');
-        if(delimiterpos != std::string::npos){
-            std::string key = line.substr(0, delimiterpos);
-            double value = std::stod(line.substr(delimiterpos + 1));
-            databaseMap[key] = value;
-        }
-        else
-            std::cerr << "Error: invalide line format." << std::endl;
+    int pos = 0;
+    std::string key;
+    double value;
+    while (std::getline(data, line)){
+        pos = line.find(',');
+        key = line.substr(0, pos);
+        line = line.substr(pos + 1);
+        value = strtod(line.c_str(), NULL);
+        databaseMap[key] = value;
     }
 }
 BitcoinExchange::BitcoinExchange(const BitcoinExchange& rhs){
@@ -135,8 +134,7 @@ void    BitcoinExchange::search_in_data_print(std::string date){
     
     it = databaseMap.find(date);
     if (it == databaseMap.end()){
-        it = databaseMap.upper_bound(date);
-        --it;
+        it = databaseMap.lower_bound(date);
         std::cout << date << " => " << value << " = " << value * it->second << std::endl;
     }
     else
