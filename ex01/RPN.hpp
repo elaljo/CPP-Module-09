@@ -6,7 +6,7 @@
 /*   By: moelalj <moelalj@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:03:45 by moelalj           #+#    #+#             */
-/*   Updated: 2025/01/18 16:16:39 by moelalj          ###   ########.fr       */
+/*   Updated: 2025/01/19 18:29:49 by moelalj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,23 @@
 
 class RPN{
     private:
-        std::stack<std::string> myStack;
+        std::stack<int> myStack;
+        int result;
     public:
         RPN();
         RPN(const RPN& rhs);
         RPN& operator=(const RPN& rhs);
         ~RPN();
-        void    read_line(std::string line);
+
         void    is_valid_argument(std::string line);
+        void    store_and_push(std::string line);
+        int     rem_spaces_begin(std::string line);
+        int     rem_spaces_last(std::string line);
+        int     is_number(std::string c);
+        void    start_calcul(std::string c);
+
+        int     stack_size();
+        int     get_result();
+
 };
 #endif
