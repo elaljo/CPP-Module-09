@@ -6,7 +6,7 @@
 /*   By: moelalj <moelalj@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:03:12 by moelalj           #+#    #+#             */
-/*   Updated: 2025/01/19 19:08:17 by moelalj          ###   ########.fr       */
+/*   Updated: 2025/01/19 21:04:16 by moelalj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(int argc, char *argv[]){
             if (rpn.stack_size() == 1)
                 std::cout << rpn.get_result() << std::endl;
             else
-                std::cout << "Error: not valid input" << std::endl;
+                std::cout << "Error: myStack has more than 1 number" << std::endl;
         }
         catch(const char* err){
             std::cout << err << std::endl;

@@ -6,7 +6,7 @@
 /*   By: moelalj <moelalj@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:08:14 by moelalj           #+#    #+#             */
-/*   Updated: 2025/01/19 19:07:51 by moelalj          ###   ########.fr       */
+/*   Updated: 2025/01/19 21:29:50 by moelalj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void    RPN::is_valid_argument(std::string line){
         if ((line[i] > 32 && line[i] < 41) || (line[i] >= 58 && line[i] < 127) || line[i] == '.' || line[i] == ',')
             throw "Error";
         if (isdigit(line[i]) && isdigit(line[i + 1]))
-            throw "Error";
+            throw "Error: number >= 10";
     }
 }
 int    RPN::rem_spaces_begin(std::string line){
@@ -69,7 +69,7 @@ void    RPN::start_calcul(std::string c){
     int n2;
     
     if (stack_size() <= 1)
-        throw "Error: invalid input";
+        throw "Error: less than 2 numbers in the stack";
     n1 = myStack.top();
     myStack.pop();
     n2 = myStack.top();
@@ -77,7 +77,11 @@ void    RPN::start_calcul(std::string c){
     if (c == "*")
         result = n2 * n1;
     else if (c == "/")
+    {
+        if (n1 == 0)
+            throw "Error: can't devide by 0";
         result = n2 / n1;
+    }
     else if (c == "-")
         result = n2 - n1;
     else if (c == "+")
@@ -92,6 +96,8 @@ void    RPN::store_and_push(std::string line){
     line = line.substr(0, rem_spaces_last(line));
     while (line.length()){
         c = line.substr(0, 1);
+        if (line.length() == 1)
+            result = std::strtod(c.c_str(), NULL);
         line = line.substr(1);
         line = line.substr(rem_spaces_begin(line));
         if (is_number(c)){
@@ -100,6 +106,7 @@ void    RPN::store_and_push(std::string line){
         }
         else
             start_calcul(c);
+            
     }
 }
 
